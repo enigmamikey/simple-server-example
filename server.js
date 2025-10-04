@@ -4,6 +4,8 @@ const url = require('url');
 const querystring = require('querystring');
 const figlet = require('figlet')
 
+
+
 function sendResponse(res, data, contentType = 'text/html') {
   res.writeHead(200, {'Content-Type': contentType})
   res.write(data)
@@ -49,6 +51,11 @@ const server = http.createServer((req, res) => {
           }
           res.end(JSON.stringify(objToJson));
         }//student = leon
+        else if (params['student'] == 'flip') {
+          let str
+          Math.random < 1/2 ? str = 'head' : str = 'tail'
+          document.querySelector('#flip').textContent = str
+        }
         else if(params['student'] != 'leon'){
           res.writeHead(200, {'Content-Type': 'application/json'});
           const objToJson = {
@@ -62,11 +69,11 @@ const server = http.createServer((req, res) => {
       break;
     }  
     case '/css/style.css': {
-      serveFile(res, '/css/style.css')
+      serveFile(res, 'css/style.css', 'text/css')
       break;
     }
     case '/js/main.js': {
-      serveFile(res, '/js/main.js')
+      serveFile(res, 'js/main.js', 'application/javascript')
       break;
     }
     default: {
