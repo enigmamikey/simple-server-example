@@ -17,7 +17,7 @@ function serveFile(res, filename, contentType = 'text/html') {
       res.end("Page not found")
       return
     }
-    sendResponse(res,data,contenType)
+    sendResponse(res,data,contentType)
   })
 }
 
