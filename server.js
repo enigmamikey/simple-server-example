@@ -10,27 +10,32 @@ function sendResponse(res, data, contentType = 'text/html') {
   res.end()
 }
 
+function serveFile(res, filename, contentType = 'text/html') {
+  fs.readFile(filename, (err,data) => {
+    if (err) {
+      res.writeHead(404, {'Content-Type': 'text/plain'})
+      res.end("Page not found")
+      return
+    }
+    sendResponse(res,data,contenType)
+  })
+}
+
 const server = http.createServer((req, res) => {
   const page = url.parse(req.url).pathname;
   const params = querystring.parse(url.parse(req.url).query);
   console.log(page);
   switch(page) {
     case '/': {
-      fs.readFile('index.html', function(err, data) {
-        sendResponse(res,data)
-      });
+      serveFile(res,'index.html')
       break;
     }
     case '/otherpage': {
-      fs.readFile('otherpage.html', function(err, data) {
-      sendResponse(res,data)
-      });
+      serveFile(res,'otherpage.html')
       break;
     }
     case '/otherotherpage': {
-      fs.readFile('otherotherpage.html', function(err, data) {
-      sendResponse(res,data)
-      });
+      serveFile(res,'otherotherpage.html')
       break;
     }
     case '/api': {
@@ -57,30 +62,16 @@ const server = http.createServer((req, res) => {
       break;
     }  
     case '/css/style.css': {
-      fs.readFile('css/style.css', function(err, data) {
-        res.write(data);
-        res.end();
-      });
+      serveFile(res, '/css/style.css')
       break;
     }
     case '/js/main.js': {
-      fs.readFile('js/main.js', function(err, data) {
-        res.writeHead(200, {'Content-Type': 'text/javascript'});
-        res.write(data);
-        res.end();
-      });
+      serveFile(res, '/js/main.js')
       break;
     }
     default: {
-      figlet('404!!', function(err, data) {
-        if (err) {
-            console.log('Something went wrong...');
-            console.dir(err);
-            return;
-        }
-        res.write(data);
-        res.end();
-      });
+      res.writeHead(404, {'Content-Type': 'text/plain'})
+      res.end("Page not found")
     }
   }
     
