@@ -54,7 +54,7 @@ const server = http.createServer((req, res) => {
         else if (params['student'] == 'flip') {
           let str
           Math.random < 1/2 ? str = 'head' : str = 'tail'
-          document.querySelector('#flip').textContent = str
+          console.log(str)
         }
         else if(params['student'] != 'leon'){
           res.writeHead(200, {'Content-Type': 'application/json'});
